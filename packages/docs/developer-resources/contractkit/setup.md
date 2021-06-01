@@ -35,8 +35,8 @@ import { newKit } from '@celo/contractkit'
 const kit = newKit(`${localUrl}:${port}`)
 ```
 
-`Web3`와 마찬가지로, `WebSockets`와 `RPC`, `IPC`를 통한 연결도 지원합니다.
-For this last one you will have to initialize the `kit` with an instances of `Web3` that has a **valid** `IPC Provider`
+`Web3`와 마찬가지로, `WebSockets`와 `RPC`, `IPC`를 통한 연결을 지원합니다.
+마지막의 경우, `kit`를 **유효한** `IPC Provider`를 가지고 있는 `Web3`의 인스턴스로 초기화해야합니다.
 
 ```ts
 import Web3 from 'web3'
