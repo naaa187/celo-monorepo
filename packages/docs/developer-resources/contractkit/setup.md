@@ -13,7 +13,7 @@ Node.js v12.x.이 필요합니다.
 
 ## 키트를 초기화하기
 
-To start working with ContractKit you need a `kit` instance and a valid net to connect with. In this example will use `alfajores` (you can read more about it [here](../../getting-started/alfajores-testnet.md))
+ContractKit로 작업을 시작하려면, `kit` 인스턴스와 연결할 valid net이 필요합니다. 본 예제에서는 `alfajores`를 사용합니다. (더 많은 정보는 여기에서 확인할 수 있습니다. [여기](../../getting-started/alfajores-testnet.md))
 
 ```ts
 import { newKit } from '@celo/contractkit'
