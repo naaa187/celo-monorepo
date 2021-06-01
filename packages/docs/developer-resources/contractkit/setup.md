@@ -1,18 +1,17 @@
-# Getting Started
+# 시작하기
 
-## Installation and System Requirements
+## 설치 및 시스템 요구사항
 
-To install, run the following:
-
+다음을 실행하여 설치를 진행하세요.
 ```bash
 npm install @celo/contractkit
 // or
 yarn add @celo/contractkit
 ```
 
-You will need Node.js v12.x.
+Node.js v12.x.이 필요합니다.
 
-## Initializing the Kit
+## 키트를 초기화하기
 
 To start working with ContractKit you need a `kit` instance and a valid net to connect with. In this example will use `alfajores` (you can read more about it [here](../../getting-started/alfajores-testnet.md))
 
