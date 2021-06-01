@@ -23,9 +23,9 @@ const kit = newKit('https://alfajores-forno.celo-testnet.org')
 
 다른 연결 유형과 네트워크 엔드포인트에 대한 자세한 사항은 [Forno 관련 문서](../forno/README.md)에서 확인하세요.
 
-## Initialize the Kit with your own node
+## 자신의 노드로 키트를 초기화하기
 
-If you are hosting your own node (you can follow [this guide](../../getting-started/running-a-full-node-in-mainnet.md) to run one) you can connect our ContractKit to it.
+만일 호스팅 중인 노드가 있다면 (노드를 실행하고 싶다면 [이 가이드](../../getting-started/running-a-full-node-in-mainnet.md)를 참고하세요.) ContractKit를 해당 노드에 연결할 수 있습니다.
 
 ```ts
 import { newKit } from '@celo/contractkit'
@@ -35,7 +35,7 @@ import { newKit } from '@celo/contractkit'
 const kit = newKit(`${localUrl}:${port}`)
 ```
 
-Same as `Web3` we support `WebSockets`, `RPC` and connecting via `IPC`.
+`Web3`와 마찬가지로, `WebSockets`와 `RPC`, `IPC`를 통한 연결도 지원합니다.
 For this last one you will have to initialize the `kit` with an instances of `Web3` that has a **valid** `IPC Provider`
 
 ```ts
