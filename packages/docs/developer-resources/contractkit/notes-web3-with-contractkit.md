@@ -1,11 +1,10 @@
-# Using Web3 with ContractKit
+# ContractKit로 Web3 사용하기
 
-Although the [Web3 library](https://web3js.readthedocs.io/) was intended to be used only with `Ethereum`, due to the nature of `Celo`, we can still use the majority of its features.
-The ContractKit, for every interaction with the node, uses internally a Web3 instance.
+[Web3 라이브러리](https://web3js.readthedocs.io/)는 `이더리움`으로만 사용할 예정이었지만, `셀로`의 특성상 여전히 대부분의 기능을 사용할 수 있습니다. 계약 키트는 노드와의 모든 상호 작용에서 내부적으로 Web3 인스턴스를 사용합니다.
 
-Because of this, the `Ethereum` JSON-RPC calls done via the web3 (except some specific calls that we will explain in this page) are also supported
+이 때문에, Web3을 통해 이루어지는 `이더리움` JSON-RPC 호출(이 페이지에서 설명할 일부 특정 호출 제외)도 지원됩니다.
 
-For example:
+예를 들어:
 
 ```ts
 const web3 = kit.web3
@@ -13,7 +12,7 @@ const web3 = kit.web3
 web3.eth.getBalance(someAddress)
 ```
 
-or
+또는
 
 ```ts
 const web3 = kit.web3
@@ -21,18 +20,19 @@ const web3 = kit.web3
 web3.eth.getBlock("latest")
 ```
 
-will work the same way
+위와 같은 방식으로 작동됩니다.
 
-## Web3 limitations
+## Web3 제한사항
 
-As you have read in our guide, Celo uses some extra fields: `feeCurrency`, `gatewayFeeRecipient` and `gatewayFee`, that among other things allows you to pay gas with ERC20 Tokens. These fields are expected by the node.
+저희 가이드에서 읽으셨듯이, Celo는 무엇보다도 당신이 ERC20 토큰으로 가스를 지불할 수 있게 해주는 몇 가지 추가 필드를 사용합니다: `feeCurrency`와 `gatewayFeeRecipient`, `gatewayFee`. 이러한 필드가 노드에 필요합니다.
 
-To facilitate the life of every developer, we decided to wrap the `Provider` set in the `Web3` instance, and add our way to handle local signing using these new fields. Similar to what *Metamask* does, we intercept every transaction and perform a local signing when required. This wrapper is called `CeloProvider`.
+모든 개발자의 삶을 편리하게 하기 위해 `Web3` 인스턴스에 설정된 `Provider`를 래핑하고 이러한 새로운 필드를 사용하여 로컬 서명을 처리하는 방법을 추가하기로 했습니다. *메타마스크*와 마찬가지로 모든 트랜잭션을 가로채고 필요할 때 로컬 서명을 수행합니다. 이 wrapper는 `CeloProvider`라고 불립니다.
 
-This let you use the Web3 instance to interact with node's Json RPC API in a transparent way, just deciding which Provider do you need.
+이를 통해 단지 어떤 Provider가 필요한지 선택하는 것만으로 Web3 인스턴스를 사용하여 노드의 Json RPC API와 투명하게 상호 작용할 수 있습니다.
 
-This is also the reason that the `Kit` requires a valid provider from the beginning
+이 때문에 처음부터 `Kit`에 유효한 `Provider`가 요구됩니다.
 
-## Local Signing Problem
 
-`Web3` provides an alternative way to locally sign transactions which is the usage of `web3.eth.accounts.signTransaction` module to register local accounts, but since Celo transactions are different to the Ethereum ones, this does not work with Celo, hence **you must not use it**.
+## 로컬 서명
+
+2021년 5월 19일에 실시된 도넛 하드포크 네트워크 업그레이드의 일환으로, Celo 네트워크는 현재 Celo 트랜잭션뿐만 아니라 이더리움 방식의 트랜잭션을 허용합니다. 즉, 메타마스크, web3.js, ether.js와 같은 이더리움 트랜잭션 서명 도구를 사용하여 Celo 네트워크의 트랜잭션에 서명할 수 있습니다. Celo는 이더리움과는 별개의 1계층 블록체인이므로 이더리움 자산을 이더리움 상의 Celo 계정 주소로 직접 전송하지 마십시오.
