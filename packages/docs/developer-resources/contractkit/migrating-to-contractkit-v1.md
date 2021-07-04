@@ -20,26 +20,27 @@ ContractKit 이제 [패키지 세트](https://github.com/celo-org/celo-monorepo/
 
 ### 보완 패키지
 
- - `Explorer`는 `contractkit`와 `connect`에 따라 달라집니다. It provides some utility functions that make it easy to listen for new block and log information.새 블록 및 로그 정보를 쉽게 수신할 수 있는 몇 가지 유틸리티 기능을 제공합니다.
- - `Governance` depends on `contractkit` and `explorer`. It provides functions to read and interact with Celo Governance Proposals (CGPs).
- - `Identity` simplifies interacting with [ODIS](odis.md), Celo’s lightweight identity layer based on phone numbers.
- - `Network-utils` provides utilities for getting genesis block and static node information.
- - `Transactions-uri` makes it easy to generate Celo transaction URIs and QR codes.
+ - `Explorer`는 `contractkit`와 `connect`에 따라 달라집니다. 새 블록 및 로그 정보를 쉽게 수신할 수 있는 몇 가지 유틸리티 기능을 제공합니다.
+ - `Governance`는 `contractkit`와 `explorer`에 따라 달라집니다. Celo Governance Proposes(CGP)를 읽고 상호 작용하는 기능을 제공합니다.
+ - `Identity`는 전화 번호를 기반으로 하는 Celo의 경량 식별 계층인 [ODIS](odis.md)과의 상호 작용을 단순화합니다.
+ - `Network-utils`는 제네시스 블록 및 정적 노드 정보를 얻기 위한 유틸리티를 제공합니다.
+ - `Transactions-uri`를 사용하여 Celo 트랜잭션 URI와 QR 코드를 쉽게 생성할 수 있습니다.
 
-### Wallets and Wallet Utility packages
+### 지갑 및 지갑 유틸리티 패키지
 
- - `Wallet-hsm-azure` is a Azure Key Vault implementation of a RemoteWallet.
- - `Wallet-hsm-aws` allows you to easily interact with a cloud HSM wallet built on AWS KMS.
- - `Wallet-ledger` provides utilities for interacting with a Ledger hardware wallet.
- - `Wallet-local`provides utilities for locally managing wallet by importing a private key string.
- - `Wallet-rpc` provides utilities for performing wallet functions via RPC.
- - `Wallet-base` provides base utilities for creating Celo wallets.
- - `Wallet-hsm` provides signature utilities for using HSMs.
- - `Wallet-remote` provides utilities for interacting with remote wallets. This is useful for interacting with wallets on secure remote servers.
+ - `Wallet-hsm-azure`은 RemoteWallet의 Azure Key Vault 구현입니다.
+ - `Wallet-hsm-aws`를 사용하면 AWS KMS 기반 클라우드 HSM 지갑과 쉽게 상호 작용할 수 있습니다.
+ - `Wallet-ledger`는 레저 하드웨어 지갑과 상호 작용하기 위한 유틸리티를 제공합니다.
+ - `Wallet-local`은 개인키 문자열을 가져와 로컬에서 지갑을 관리하기 위한 유틸리티를 제공합니다.
+ - `Wallet-rpc`는 RPC를 통해 지갑 기능을 수행하기 위한 유틸리티를 제공합니다.
+ - `Wallet-base`는 Celo 지갑을 만드는 기본 유틸리티를 제공합니다.
+ - `Wallet-hsm`은 HSM을 사용하기 위한 시그니처 유틸리티를 제공합니다.
+ - `Wallet-remote`는 원격 지갑과 상호 작용하기 위한 유틸리티를 제공합니다. 보안 원격 서버의 지갑과 상호 작용할 때 유용합니다.
 
-## Importing packages
+## 패키지 가져오기
 
 Importing the packages is slightly different now that many packages are separate from the main `ContractKit` package. You will have to explicitly import these packages instead of just importing all of them with `ContractKit`.
+현재 많은 패키지가 메인 `ContractKit` 패키지와 분리되어 있기 때문에 패키지를 가져오는 것이 조금씩 다릅니다. 이 패키지들은 단순히 'ContractKit'로 모두 가져오는 대신 명시적으로 가져와야 합니다.
 
 예를 들어:
 
@@ -51,9 +52,9 @@ import { newBlockExplorer } from '@celo/contractkit/lib/explorer/block-explorer'
 import { newBlockExplorer } from '@celo/explorer/lib/block-explorer'
 ```
 
-## Connecting to the network
+## 네트워크에 연결하기 
 
-### Older versions of ContractKit:
+### ContractKit의 구버전:
 
 ```javascript
 // version ^0.4.0 
@@ -63,7 +64,7 @@ const ContractKit = require('@celo/contractkit')
 const kit = ContractKit.newKit('https://forno.celo.org')
 ```
 
-### Version 1.x.y
+### 버전 1.x.y
 
 ```javascript
 // Since ContractKit no longer instantiates web3, you'll need to explicitly require it 
@@ -74,9 +75,9 @@ const web3 = new Web3('https://forno.celo.org')
 const { ContractKit, newKitFromWeb3 } = require('@celo/contractkit') 
 let contractKit = newKitFromWeb3(web3)
 ```
-## Accessing Web3 functions
+## Web3 함수에 접근하기
 
-You can access `web3` functions through the `connection` module.
+`connection` 모듈을 사용하여 `web3`함수에 접근할 수 있습니다.
 
 ```javascript
 // version ^0.4.0 
@@ -85,9 +86,9 @@ let amount = kit.web3.utils.fromWei("1000000", "ether")
 // version 1.x.y
 let amount = kit.connection.web3.utils.fromWei("1000000", "ether")
 ```
-## Backward Compatibility
+## 이전 버전과의 호환
 
-[These ContractKit functions](https://github.com/celo-org/celo-monorepo/blob/a7579fc9bdc0c1b4ce1d9fec702938accf82be2a/packages/sdk/contractkit/src/kit.ts#L278) will still work when accessed directly from `kit`, but it is advised to consume it via `connection` to avoid future deprecation.
+[이 ContractKit 함수](https://github.com/celo-org/celo-monorepo/blob/a7579fc9bdc0c1b4ce1d9fec702938accf82be2a/packages/sdk/contractkit/src/kit.ts#L278)들은 `kit`로 직접 접근해도 여전히 작동하지만 향후 호환되지 않는 문제를 피하려면 `connection`을 통해 사용하는 것이 좋습니다.
 
 ```
 // This still works
@@ -97,9 +98,9 @@ kit.addAccount
 kit.connection.addAccount
 ```
 
-## `Connection` package
+## `Connection` 패키지
 
-The `connection` package update includes implementations of some common web3 functions. Here are a few examples:
+`connection` 패키지 업데이트는 몇 가지 일반적인 Web3 기능의 구현이 포함되어 있습니다. 다음은 몇 가지 예시입니다:
 
  - `kit.web3.eth.isSyncing` --> `kit.connection.isSyncing`
  - `kit.web3.eth.getBlock` --> `kit.connection.getBlock`
