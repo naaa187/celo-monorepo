@@ -8,7 +8,7 @@ cLabs는 최근 [ContractKit 버전 1.0.0](https://medium.com/celoorg/contractki
  - 번들 사이즈 감소
  - 더 나은 타입스크립트 지원
  - 다른 라이브러리를 보다 쉽게 사용할 수 있도록 하여 유지 관리 개선
- - 
+
 ## ContractKit 패키지
 
 ContractKit 이제 [패키지 세트](https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk)입니다.
@@ -20,7 +20,7 @@ ContractKit 이제 [패키지 세트](https://github.com/celo-org/celo-monorepo/
 
 ### 보완 패키지
 
- - `Explorer`는 `contractkit`와 `connect`에 따라 달라집니다. It provides some utility functions that make it easy to listen for new block and log information.
+ - `Explorer`는 `contractkit`와 `connect`에 따라 달라집니다. It provides some utility functions that make it easy to listen for new block and log information.새 블록 및 로그 정보를 쉽게 수신할 수 있는 몇 가지 유틸리티 기능을 제공합니다.
  - `Governance` depends on `contractkit` and `explorer`. It provides functions to read and interact with Celo Governance Proposals (CGPs).
  - `Identity` simplifies interacting with [ODIS](odis.md), Celo’s lightweight identity layer based on phone numbers.
  - `Network-utils` provides utilities for getting genesis block and static node information.
@@ -41,7 +41,7 @@ ContractKit 이제 [패키지 세트](https://github.com/celo-org/celo-monorepo/
 
 Importing the packages is slightly different now that many packages are separate from the main `ContractKit` package. You will have to explicitly import these packages instead of just importing all of them with `ContractKit`.
 
-For example:
+예를 들어:
 
 ```javascript
 // Previously this would work to import the block-explorer
