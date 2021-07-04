@@ -1,6 +1,6 @@
-# Calling Oblivious Decentralized Identifier Service (ODIS)
+# ODIS를 사용하여 온체인 식별자 쿼리하기 (ODIS)
 
-This guide walks through using ContractKit to query the on-chain identifier given a phone number. See [this overview document](../../celo-codebase/protocol/identity/phone-number-privacy.md) for more details on ODIS. One of Celo's key features is the ability to associate a phone number to a Celo address. This provides a convenient payment experience for Celo users. To map a phone number to an address, the on-chain identifier for a given phone number must first be retrieved. With this identifier, the address can be looked up on-chain.
+이 가이드에서는 ContractKit를 사용하여 전화 번호가 주어진 온체인 식별자를 쿼리하는 방법을 안내합니다. ODIS에 대한 자세한 내용은 [이 개요 문서](../../celo-codebase/protocol/identity/phone-number-privacy.md)를 참조하십시오. Celo의 주요 기능 중 하나는 전화 번호를 Celo 주소에 연결하는 기능입니다. 이 기능은 Celo 사용자에게 편리한 결제 경험을 제공합니다. 전화 번호를 주소에 매핑하려면 먼저 주어진 전화 번호에 대한 온체인 식별자를 검색해야 합니다. 이 식별자를 사용하여 주소를 온체인에서 조회할 수 있습니다.
 
 {% hint style="info" %}
 ODIS requests are rate-limited based on transaction history and balance. Ensure the account that is performing the queries has a balance and has performed transactions on the network. If an out of quota error is hit, this indicates that more transactions need to be sent from the querying account.
