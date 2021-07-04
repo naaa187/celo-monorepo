@@ -75,7 +75,7 @@ const blsBlindingClient = new ReactBlsBlindingClient(odisPubKey)
 ```ts
 const blsBlindingClient = new WasmBlsBlindingClient(odisPubKey)
 ```
-이제 전화 번호 식별자를 얻을 준비가 되었습니다. `OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier` [관련 문서는 여기서 찾을 수 있습니다.](../identity/reference/modules/_odis_phone_number_identifier_.md#getphonenumberidentifier).
+이제 전화 번호 식별자를 얻을 준비가 되었습니다. `OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier` [관련 문서는 여기서 찾을 수 있습니다.](../identity/reference/modules/_odis_phone_number_identifier_.md#getphonenumberidentifier)
 
 응답은 원래 전화 번호와 온체인 식별자(phoneHash), 전화 번호의 페퍼를 가진 [객체](../identity/reference/interfaces/_odis_phone_number_identifier_.phonenumberhashdetails.md)가 됩니다.
 
@@ -83,7 +83,7 @@ const blsBlindingClient = new WasmBlsBlindingClient(odisPubKey)
 
 ## 매치메이킹(Matchmaking)
 
-모든 사용자의 연락처의 페퍼를 쿼리하고 사용자의 할당량을 소비하는 대신, 실제로 사용되기 전에만 페퍼를 쿼리하는 것이 좋습니다(예: 자금을 보내기 직전). 그러나 때로는 사용자에게 이미 Celo 네트워크를 사용하는 연락처가 있음을 알려주는 것이 도움이 됩니다. 이를 위해 매치메이킹 인터페이스를 사용할 수 있습니다. 두 개의 전화번호를 지정하면 상대방도 해당 식별자를 Celo 네트워크에 등록했는지 여부를 알려줍니다. `OdisUtils.Matchmaking.getContactMatches` [관련 문서는 여기서 찾을 수 있습니다.](reference/modules/_identity_claims_account_.md).
+모든 사용자의 연락처의 페퍼를 쿼리하고 사용자의 할당량을 소비하는 대신, 실제로 사용되기 전에만 페퍼를 쿼리하는 것이 좋습니다(예: 자금을 보내기 직전). 그러나 때로는 사용자에게 이미 Celo 네트워크를 사용하는 연락처가 있음을 알려주는 것이 도움이 됩니다. 이를 위해 매치메이킹 인터페이스를 사용할 수 있습니다. 두 개의 전화번호를 지정하면 상대방도 해당 식별자를 Celo 네트워크에 등록했는지 여부를 알려줍니다. `OdisUtils.Matchmaking.getContactMatches` [관련 문서는 여기서 찾을 수 있습니다.](reference/modules/_identity_claims_account_.md)
 
 The response will be a subset of the input `e164NumberContacts` that are matched by the matchmaking service.
 응답은 매치메이킹 서비스로 매치된 `e164NumberContacts` 입력의 하위 집합이 됩니다.
