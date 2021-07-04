@@ -1,26 +1,26 @@
-# Migrating to ContractKit v1.x.y
+# ContractKit v1.0으로 마이그레이션하기
 
-cLabs recently released [ContractKit version 1.0.0](https://medium.com/celoorg/contractkit-1-0-0-9c0412462d45). In it, the original ContractKit package has been split into several separate packages that all make up the Celo SDK. This document explains the key differences and shows you how you can start using the updated SDK.
+cLabs는 최근 [ContractKit 버전 1.0.0](https://medium.com/celoorg/contractkit-1-0-0-9c0412462d45)을 배포했습니다. 해당 버전에서는 원래 ContractKit 패키지가 모두 Celo SDK를 구성하는 여러 개별 패키지로 분할되었습니다. 이 문서에서는 주요 차이점을 설명하고 업데이트된 SDK를 사용하는 방법을 보여 줍니다.
 
-If you are using a previous version of ContractKit (anything below 1.0.0), you can continue using that version and you will only need to make the following changes when you upgrade.
+이전 버전의 ContractKit(1.0.0 이하 버전)를 사용하는 경우 해당 버전을 계속 사용할 수 있으며 업그레이드할 때 뒤의 내용과 같이 변경하기만 하면 됩니다.
 
-The main benefit of using the new version include:
- - Reduced bundle size
- - Better Typescript support
- - Improved maintenance by making it easier to use other libraries
+새 버전을 사용할 때의 주요 이점은 다음과 같습니다:
+ - 번들 사이즈 감소
+ - 더 나은 타입스크립트 지원
+ - 다른 라이브러리를 보다 쉽게 사용할 수 있도록 하여 유지 관리 개선
+ - 
+## ContractKit 패키지
 
-## ContractKit packages
+ContractKit 이제 [패키지 세트](https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk)입니다.
 
-ContractKit is now a [suite of packages](https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk).
+### 주요 패키지
 
-### Main packages
+ - `Connect` 는 체인 노드와 통신하는 방법을 다룹니다. `web3` 라이브러리를 래핑하고 자체 `rpcCaller` 클래스가 있어 노드에 사용자 지정 호출을 수행합니다. 이 계층은 Celo가 어떤 매개변수를 어떻게 추가하고 노드에 연결하고, 메시지를 작성하고, 메시지를 작성하고, 보내고, 응답을 처리하는지 파악하는 계층입니다.
+ - `ContractKit`는 이전 버전의 ContractKit의 축소된 부분집합입니다. 이 계층은 [core contracts](contracts-wrappers-registry.md)를 로드하고 사용하는 계층입니다. 내부적으로는 위에서 설명한 `connect` 패키지를 사용합니다. ABI에서 생성된 컨트랙트, 래퍼 및 클레임을 만드는 로직을 포함합니다.
 
- - `Connect` handles how we communicate to the our chain nodes. It wraps the `web3` library and has its own `rpcCaller` class, to make custom calls to the node. It's the layer in charge of knowing how and which parameters are added by Celo, connect to the node, build the message, send it and handle those responses.
- - `ContractKit` is a reduced subset of the previous versions of ContractKit. This is the layer in charge of loading and using our [core contracts](contracts-wrappers-registry.md). Internally, uses the `connect` package described above. It has our contracts generated from the ABIs, their wrappers, and also the logic to make claims.
+### 보완 패키지
 
-### Complementary Packages
-
- - `Explorer` depends on `contractkit` and `connect`. It provides some utility functions that make it easy to listen for new block and log information.
+ - `Explorer`는 `contractkit`와 `connect`에 따라 달라집니다. It provides some utility functions that make it easy to listen for new block and log information.
  - `Governance` depends on `contractkit` and `explorer`. It provides functions to read and interact with Celo Governance Proposals (CGPs).
  - `Identity` simplifies interacting with [ODIS](odis.md), Celo’s lightweight identity layer based on phone numbers.
  - `Network-utils` provides utilities for getting genesis block and static node information.
