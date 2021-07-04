@@ -3,19 +3,19 @@
 이 가이드에서는 ContractKit를 사용하여 전화 번호가 주어진 온체인 식별자를 쿼리하는 방법을 안내합니다. ODIS에 대한 자세한 내용은 [이 개요 문서](../../celo-codebase/protocol/identity/phone-number-privacy.md)를 참조하십시오. Celo의 주요 기능 중 하나는 전화 번호를 Celo 주소에 연결하는 기능입니다. 이 기능은 Celo 사용자에게 편리한 결제 경험을 제공합니다. 전화 번호를 주소에 매핑하려면 먼저 주어진 전화 번호에 대한 온체인 식별자를 검색해야 합니다. 이 식별자를 사용하여 주소를 온체인에서 조회할 수 있습니다.
 
 {% hint style="info" %}
-ODIS requests are rate-limited based on transaction history and balance. Ensure the account that is performing the queries has a balance and has performed transactions on the network. If an out of quota error is hit, this indicates that more transactions need to be sent from the querying account.
+ODIS 요청은 트랜잭션 기록 및 잔액에 따라 요금이 제한됩니다. 조회를 수행하는 계정에 잔액이 있고 네트워크에서 트랜잭션을 수행했는지 확인하십시오. 할당량 초과 오류가 발생하면, 이는 쿼리하고있는 계정에서 더 많은 트랜잭션을 전송해야 함을 나타냅니다.
 {% endhint %}
 
-There are two methods for ODIS:
+ODIS에는 두 가지 방법이 있습니다:
 
-1. `getPhoneNumberIdentifier` - Query and compute the identifier for a phone number
-2. `getContactMatches` - Find mutual connections between users
+1. `getPhoneNumberIdentifier` - 전화 번호에 대한 식별자를 쿼리하고 계산합니다.
+2. `getContactMatches` - 사용자 간의 상호 연결 찾기
 
-## Authentication
+## 인증
 
-Both methods require authentication to the ODIS server, which can be performed by either the main wallet key or the data-encryption key (DEK) associated with the wallet key. This is managed by `AuthSigner`, which can be either a `WalletKeySigner` for a wallet key or an `EncryptionKeySigner` for the DEK. The DEK method is preferred, since it doesn't require the user to access the same key that manages their funds. [You can learn more about DEK here.](./data-encryption-key.md)
+두 가지 방법 모두 ODIS 서버에 대한 인증이 필요하며, 주 지갑 키나 지갑 키와 연결된 데이터 암호화 키(DEK)를 통해 인증을 수행할 수 있습니다. 이 작업은 지갑 키의 WalletKeySigner 또는 DEK의 EncryptionKeySigner일 수 있는 AuthSigner에 의해 관리됩니다. DEK 방법은 사용자가 자금을 관리하는 동일한 키에 액세스할 필요가 없기 때문에 선호됩니다. [여기서 DEK에 대해 자세히 알아볼 수 있습니다.](./data-encryption-key.md)
 
-You may use the `EncryptionKeySigner` for your `AuthSigner` by passing in the raw private key:
+원시 개인 키를 전달하여 AuthSigner에 EncryptionKeySigner를 사용할 수 있습니다.
 
 ```ts
 const authSigner: AuthSigner = {
@@ -24,7 +24,7 @@ const authSigner: AuthSigner = {
 }
 ```
 
-Alternatively, you may use the `WalletKeySigner` by passing in a contractkit instance with the account unlocked:
+또는 계정의 잠금이 해제된 contractkit 인스턴스를 전달하여 WalletKeySigner를 사용할 수도 있습니다.
 
 ```ts
 const authSigner: AuthSigner = {
@@ -33,9 +33,9 @@ const authSigner: AuthSigner = {
 }
 ```
 
-## Service Context
+## 서비스 컨텍스트
 
-The `ServiceContext` object provides the ODIS endpoint URL and the ODIS public key (same as above).
+ServiceContext 객체는 ODIS 엔드포인트 URL과 ODIS 공개키(위와 동일)를 제공합니다.
 
 ```ts
 const serviceContext: ServiceContext = {
@@ -44,25 +44,25 @@ const serviceContext: ServiceContext = {
 }
 ```
 
-The ODIS endpoint URL for each environment can be found here:
+각 환경의 ODIS 엔트포인트 URL은 다음과 같습니다:
 | Environment | Key |
 |---|---|
 | Alfajores Staging | https://us-central1-celo-phone-number-privacy-stg.cloudfunctions.net |
 | Alfajores | https://us-central1-celo-phone-number-privacy.cloudfunctions.net |
 | Mainnet | https://us-central1-celo-pgpnp-mainnet.cloudfunctions.net |
 
-The ODIS public key for each environment can be found here:
+각 환경의 ODIS 공개키는 다음과 같습니다:
 | Environment | Key |
 |---|---|
 | Alfajores Staging | 7FsWGsFnmVvRfMDpzz95Np76wf/1sPaK0Og9yiB+P8QbjiC8FV67NBans9hzZEkBaQMhiapzgMR6CkZIZPvgwQboAxl65JWRZecGe5V3XO4sdKeNemdAZ2TzQuWkuZoA |
 | Alfajores | kPoRxWdEdZ/Nd3uQnp3FJFs54zuiS+ksqvOm9x8vY6KHPG8jrfqysvIRU0wtqYsBKA7SoAsICMBv8C/Fb2ZpDOqhSqvr/sZbZoHmQfvbqrzbtDIPvUIrHgRS0ydJCMsA |
 | Mainnet | FvreHfLmhBjwxHxsxeyrcOLtSonC9j7K3WrS4QapYsQH6LdaDTaNGmnlQMfFY04Bp/K4wAvqQwO9/bqPVCKf8Ze8OZo8Frmog4JY4xAiwrsqOXxug11+htjEe1pj4uMA |
 
-## Query phone number identifier
+## 전화번호 식별자 쿼리하기
 
-This call consumes quota. When the user runs out of quota, it's recommended to prompt the user to "purchase" more quota by sending a transaction to themselves. This method returns the pepper retrieved from the service as well as the the computed on-chain identifier that is generated using this pepper and the phone number.
+이 호출은 할당량을 사용합니다. 사용자가 할당량을 초과하여 실행하는 경우, 트랜잭션을 전송하여 더 많은 할당량을 "구매"하도록 사용자에게 안내하는 것이 좋습니다. 이 방법은 서비스에서 검색한 페퍼와 더불어 해당 페퍼와 전화 번호를 사용하여 생성된 온체인 식별자를 반환합니다.
 
-### BLS Blinding Client
+### BLS 블라인딩 클라이언트
 
 It's important for user privacy that the ODIS servers don't have the ability to view the raw phone number. Before making the request, the library first blinds the phone number using a BLS library. This prevents the ODIS from being able to see the phone number but still makes the resulting signature recoverable to the original phone number. The blinding client is written in [Rust](https://github.com/celo-org/celo-threshold-bls-rs) and compiled to Web Assembly, which is not compatible with React native. If you choose not to pass in a `BLSBlindingClient` it will default to the Web Assembly version. You may create a `ReactBlindingClient` by calling the constructor with the ODIS public key:
 
