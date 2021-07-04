@@ -64,28 +64,28 @@ const serviceContext: ServiceContext = {
 
 ### BLS 블라인딩 클라이언트
 
-It's important for user privacy that the ODIS servers don't have the ability to view the raw phone number. Before making the request, the library first blinds the phone number using a BLS library. This prevents the ODIS from being able to see the phone number but still makes the resulting signature recoverable to the original phone number. The blinding client is written in [Rust](https://github.com/celo-org/celo-threshold-bls-rs) and compiled to Web Assembly, which is not compatible with React native. If you choose not to pass in a `BLSBlindingClient` it will default to the Web Assembly version. You may create a `ReactBlindingClient` by calling the constructor with the ODIS public key:
+사용자 개인 정보 보호를 위해 ODIS 서버에 실제 전화 번호를 볼 수 있는 기능이 없는 것은 중요합니다. 리퀘스트를 보내기 전에 라이브러리는 먼저 BLS 라이브러리를 사용하여 전화 번호를 블라인드 처리 합니다. 이렇게 하면 ODIS가 전화 번호를 볼 수 없지만 원래 전화 번호로 결과 서명을 복구할 수 있게 됩니다. 블라인딩 클라이언트는 [Rust](https://github.com/celo-org/celo-threshold-bls-rs)로 작성되어 Web Assembly로 컴파일되며, 이는 리액트 네이티브와 호환되지는 않습니다. `BLSBlindingClient`를 전달하지 않도록 선택하면 기본적으로 Web Assembly 버전이 됩니다. ODIS 공개키로 생성자를 호출하여 `ReactBlindingClient`를 생성할 수도 있습니다:
 
 ```ts
 const blsBlindingClient = new ReactBlsBlindingClient(odisPubKey)
 ```
 
-Or use the `WasmBlsBlindingClient` if your runtime environment supports Web Assembly:
+또는 런타임 환경에서 웹 어셈블리를 지원하는 경우 `WasmBlindingClient`를 사용할 수 있습니다:
 
 ```ts
 const blsBlindingClient = new WasmBlsBlindingClient(odisPubKey)
 ```
+이제 전화 번호 식별자를 얻을 준비가 되었습니다. `OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier` [관련 문서는 여기서 찾을 수 있습니다.](../identity/reference/modules/_odis_phone_number_identifier_.md#getphonenumberidentifier).
 
-Now you're ready to get the phone number identifier. `OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier` [documentation can be found here](../identity/reference/modules/_odis_phone_number_identifier_.md#getphonenumberidentifier).
+응답은 원래 전화 번호와 온체인 식별자(phoneHash), 전화 번호의 페퍼를 가진 [객체](../identity/reference/interfaces/_odis_phone_number_identifier_.phonenumberhashdetails.md)가 됩니다.
 
-The response will be [an object](../identity/reference/interfaces/_odis_phone_number_identifier_.phonenumberhashdetails.md) with the original phone number, the on-chain identifier (phoneHash), and the phone number's pepper.
+[여기에 있는 우리의 모바일 프로젝트](https://github.com/celo-org/wallet/blob/master/packages/mobile/src/identity/privateHashing.ts)에서 이 호출의 예시를 볼 수 있습니다.
 
-You can view an example of this call in [our mobile project here](https://github.com/celo-org/wallet/blob/master/packages/mobile/src/identity/privateHashing.ts).
+## 매치메이킹(Matchmaking)
 
-## Matchmaking
-
-Instead of querying for all the user's contact's peppers and consuming the user's quota, it's recommended to only query the pepper before it's actually used (ex. just before sending funds). However, sometimes it's helpful to let your users know that they have contacts already using the Celo network. To do this, you can make use of the matchmaking interface. Given two phone numbers, it will let you know whether the other party has also registered on the Celo network with this identifier. `OdisUtils.Matchmaking.getContactMatches` [documentation can be found here](reference/modules/_identity_claims_account_.md).
+모든 사용자의 연락처의 페퍼를 쿼리하고 사용자의 할당량을 소비하는 대신, 실제로 사용되기 전에만 페퍼를 쿼리하는 것이 좋습니다(예: 자금을 보내기 직전). 그러나 때로는 사용자에게 이미 Celo 네트워크를 사용하는 연락처가 있음을 알려주는 것이 도움이 됩니다. 이를 위해 매치메이킹 인터페이스를 사용할 수 있습니다. 두 개의 전화번호를 지정하면 상대방도 해당 식별자를 Celo 네트워크에 등록했는지 여부를 알려줍니다. `OdisUtils.Matchmaking.getContactMatches` [관련 문서는 여기서 찾을 수 있습니다.](reference/modules/_identity_claims_account_.md).
 
 The response will be a subset of the input `e164NumberContacts` that are matched by the matchmaking service.
+응답은 매치메이킹 서비스로 매치된 `e164NumberContacts` 입력의 하위 집합이 됩니다.
 
-You can view an example of this call in [our mobile project here](https://github.com/celo-org/wallet/blob/master/packages/mobile/src/identity/matchmaking.ts).
+[여기에 있는 우리의 모바일 프로젝트](https://github.com/celo-org/wallet/blob/master/packages/mobile/src/identity/matchmaking.ts)에서 이 호출의 예시를 볼 수 있습니다.
